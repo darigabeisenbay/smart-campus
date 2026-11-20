@@ -1,6 +1,6 @@
 // Task #04: compare prompts A/B/C for clarity, consistency and factual agreement.
 // Default: scores the recorded outputs in docs/prompt-eval/outputs.json.
-// --live: regenerates outputs with the real API (needs ANTHROPIC_API_KEY), 3 runs per prompt.
+// --live: regenerates outputs with the real API (needs ANTHROPIC_API_KEY), one run per prompt and scenario.
 import { readFileSync, writeFileSync } from 'node:fs';
 import { parseModelJson, createLiveModel, withTimeout } from '../src/explain/adapter.js';
 import { validateExplanation, countSentences } from '../src/explain/validateExplanation.js';

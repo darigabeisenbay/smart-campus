@@ -37,7 +37,8 @@ produced or changed by the model. See `docs/FEATURE_SPEC.md`.
 | `LLM_MODE` | `mock` | `mock` (free, offline), `live` (Anthropic API), `off` (always deterministic text) |
 | `ANTHROPIC_API_KEY` | – | server-side only; missing key → fallback |
 | `LLM_MODEL` | `claude-haiku-5-5` | model for live mode |
-| `LLM_TIMEOUT_MS` | `4000` | adapter timeout |
+| `LLM_TIMEOUT_MS` | `4000` | adapter timeout, clamped to 500–7000 ms (below the browser's 8 s) |
+| `EXPLAIN_RATE_LIMIT_PER_MIN` | `10` | per-IP limit on explain calls in live mode |
 | `LLM_PROMPT_VARIANT` | `C` | prompt A/B/C (see `docs/prompt-eval/`) |
 | `LLM_MOCK_BEHAVIOR` | `ok` | demo failures: `timeout`, `error`, `invalid`, `contradict`, `invent` |
 

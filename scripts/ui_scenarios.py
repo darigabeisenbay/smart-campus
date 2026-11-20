@@ -22,12 +22,12 @@ SERVERS = {
 
 # id, server, start, end, expected status text, expected explanation label/source, note
 CASES = [
-    ('T01', 'available', 'mock', '2026-11-23T11:00', '2026-11-23T12:00', 'Available', 'AI-generated'),
-    ('T02', 'overlap', 'mock', '2026-11-23T10:00', '2026-11-23T11:00', 'overlaps an existing booking', 'AI-generated'),
-    ('T03', 'blocked room', 'mock', '2026-11-24T10:00', '2026-11-24T11:00', 'room is blocked', 'AI-generated'),
-    ('T04', 'invalid time (end before start)', 'mock', '2026-11-23T12:00', '2026-11-23T11:00', 'invalid time range', 'AI-generated'),
-    ('T05', 'past time', 'mock', '2026-11-19T10:00', '2026-11-19T11:00', 'time is in the past', 'AI-generated'),
-    ('T06', 'outside opening hours', 'mock', '2026-11-23T07:00', '2026-11-23T08:30', 'outside opening hours', 'AI-generated'),
+    ('T01', 'available', 'mock', '2026-11-23T11:00', '2026-11-23T12:00', 'Available', 'Generated explanation (mock model)'),
+    ('T02', 'overlap', 'mock', '2026-11-23T10:00', '2026-11-23T11:00', 'overlaps an existing booking', 'Generated explanation (mock model)'),
+    ('T03', 'blocked room', 'mock', '2026-11-24T10:00', '2026-11-24T11:00', 'room is blocked', 'Generated explanation (mock model)'),
+    ('T04', 'invalid time (end before start)', 'mock', '2026-11-23T12:00', '2026-11-23T11:00', 'invalid time range', 'Generated explanation (mock model)'),
+    ('T05', 'past time', 'mock', '2026-11-19T10:00', '2026-11-19T11:00', 'time is in the past', 'Generated explanation (mock model)'),
+    ('T06', 'outside opening hours', 'mock', '2026-11-23T07:00', '2026-11-23T08:30', 'outside opening hours', 'Generated explanation (mock model)'),
     ('T09', 'LLM timeout', 'timeout', '2026-11-23T10:00', '2026-11-23T11:00', 'overlaps an existing booking', 'Standard explanation'),
     ('T10', 'simulated API failure', 'error', '2026-11-23T10:00', '2026-11-23T11:00', 'overlaps an existing booking', 'Standard explanation'),
     ('T11', 'unavailable API key (live mode)', 'nokey', '2026-11-23T11:00', '2026-11-23T12:00', 'Available', 'Standard explanation'),

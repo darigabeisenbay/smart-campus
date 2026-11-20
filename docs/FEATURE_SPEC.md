@@ -10,7 +10,7 @@ As a student, I want a short explanation of room availability so I understand th
 | Server → model (minimal facts) | `room` (label from server data), `start`, `end`, `isAvailable`, `reasonCode` | built by the server from the validated input and the deterministic result; no free user text |
 
 ## Outputs
-- Model contract: `{"explanation": string}` – JSON only, ≤ 2 sentences, ≤ 300 chars, no HTML/links/markdown,
+- Model contract: `{"explanation": string}` – JSON only (one surrounding ```json fence tolerated), ≤ 2 sentences, ≤ 300 chars, no HTML/links/markdown,
   agrees with `isAvailable` and mentions the `reasonCode`, no times/dates/rooms/names not in the facts.
 - API response: `{ status: {room, start, end, isAvailable, reasonCode}, explanation: {text, source, generated, fallbackReason} }`
   where `status` always comes from `checkAvailability()` and `source` is `mock`, `llm` or `fallback`.
@@ -21,7 +21,7 @@ As a student, I want a short explanation of room availability so I understand th
 | AC1 | Existing availability and overlap rules remain unchanged | `src/availability.js` untouched (`git diff checkpoint-baseline-green -- src/availability.js` is empty); baseline tests still pass |
 | AC2 | Explanation agrees with the deterministic result; no invented booking details | `validateExplanation()` on every model output; failures → fallback |
 | AC3 | Empty, malformed or overly long input is rejected | `validateRequest()` + body-size limit → HTTP 400 |
-| AC4 | API timeout, error or unavailable key produces a safe fallback | `withTimeout()` (4 s), error mapping, `NO_API_KEY` short-circuit → `fallback.js` |
+| AC4 | API timeout, error or unavailable key produces a safe fallback | `withTimeout()` (4 s, clamped 0.5–7 s, aborts on client disconnect), error mapping, `NO_API_KEY` short-circuit → `fallback.js` |
 | AC5 | User can distinguish generated explanation from confirmed status | separate boxes: "Booking status (from booking rules)" vs "AI-generated explanation" + badge + disclaimer |
 
 ## Failure behaviour
@@ -29,7 +29,10 @@ As a student, I want a short explanation of room availability so I understand th
 |---|---|---|
 | Empty / malformed / too long input | HTTP 400, error message, model not called | – |
 | No API key (live mode) | deterministic text, no network call | `NO_API_KEY` |
-| Timeout (> 4 s) | request aborted, deterministic text | `TIMEOUT` |
+| Timeout (default 4 s, clamped to 0.5–7 s) | request aborted, deterministic text | `TIMEOUT` |
+| Browser disconnects mid-call | model call aborted, nothing sent | `CLIENT_ABORTED` |
+| > 4 model calls in flight | deterministic text | `BUSY` |
+| > 10 explain calls/min from one IP (live mode) | deterministic text, model not called | `RATE_LIMITED` |
 | HTTP 401/403 | deterministic text | `AUTH_ERROR` |
 | Network / 5xx | deterministic text | `API_ERROR` |
 | Output not `{"explanation": string}` | deterministic text | `INVALID_OUTPUT` |

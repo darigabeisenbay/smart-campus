@@ -15,10 +15,13 @@ const ERROR_TEXT = {
   MALFORMED_INPUT: 'The request was not in the expected format.',
   INPUT_TOO_LONG: 'The input is too long.',
   UNKNOWN_ROOM: 'Unknown room.',
+  UNSUPPORTED_MEDIA_TYPE: 'The request was not in the expected format.',
   STATUS_CHANGED: 'The availability changed since your check. Please check again.'
 };
 
+const TITLE = { mock: 'Generated explanation (mock model)', llm: 'AI-generated explanation', fallback: 'Explanation' };
 const BADGE = { mock: 'Mock model (offline demo)', llm: 'AI model', fallback: 'Standard explanation – AI unavailable' };
+const FALLBACK_BADGE = { DISABLED: 'Standard explanation', RATE_LIMITED: 'Standard explanation – AI busy, try later' };
 const EXPLAIN_TIMEOUT_MS = 8000;
 
 let roomId = 'A-101';
@@ -62,8 +65,10 @@ async function onCheck(event) {
 
 function renderExplanation(explanation) {
   const generated = explanation.generated === true;
-  $('explain-title').textContent = generated ? 'AI-generated explanation' : 'Explanation';
-  $('explain-badge').textContent = BADGE[explanation.source] || BADGE.fallback;
+  const source = generated ? explanation.source : 'fallback';
+  $('explain-title').textContent = TITLE[source] || TITLE.llm;
+  $('explain-badge').textContent = generated ? (BADGE[source] || BADGE.llm)
+    : (FALLBACK_BADGE[explanation.fallbackReason] || BADGE.fallback);
   $('explain-badge').className = generated ? 'badge' : 'badge fallback';
   $('explain-text').textContent = explanation.text;
   $('explain').classList.remove('hidden');

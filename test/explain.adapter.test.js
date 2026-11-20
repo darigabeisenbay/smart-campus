@@ -9,7 +9,7 @@ import { SYSTEM_PROMPTS, buildFacts, buildUserMessage } from '../src/explain/pro
 const facts = (isAvailable, reasonCode) => buildFacts({
   roomLabel: ROOM.label, start: '2026-11-23T10:00', end: '2026-11-23T11:00', isAvailable, reasonCode
 });
-const anthropicReply = (text) => ({ ok: true, status: 200, json: async () => ({ content: [{ type: 'text', text }] }) });
+const anthropicReply = (text) => ({ ok: true, status: 200, text: async () => JSON.stringify({ content: [{ type: 'text', text }] }) });
 
 test('mock mode explains every reason code from structured data and passes validation', async () => {
   const adapter = createExplainAdapter({ mode: 'mock' });
@@ -52,10 +52,10 @@ test('AC4: unavailable key in live mode produces the fallback without any networ
 
 test('AC4: live HTTP 401/500 and network failure produce the fallback', async () => {
   const cases = [
-    [async () => ({ ok: false, status: 401, json: async () => ({}) }), 'AUTH_ERROR'],
-    [async () => ({ ok: false, status: 500, json: async () => ({}) }), 'API_ERROR'],
+    [async () => ({ ok: false, status: 401, text: async () => '{}' }), 'AUTH_ERROR'],
+    [async () => ({ ok: false, status: 500, text: async () => '{}' }), 'API_ERROR'],
     [async () => { throw new Error('ECONNRESET'); }, 'API_ERROR'],
-    [async () => ({ ok: true, status: 200, json: async () => ({ unexpected: true }) }), 'INVALID_OUTPUT']
+    [async () => ({ ok: true, status: 200, text: async () => JSON.stringify({ unexpected: true }) }), 'INVALID_OUTPUT']
   ];
   for (const [fetchImpl, reason] of cases) {
     const r = await createExplainAdapter({ mode: 'live', apiKey: 'k', fetchImpl }).explain(facts(false, 'OVERLAP'));

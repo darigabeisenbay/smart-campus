@@ -98,7 +98,7 @@ test('AC4: timeout, API error and missing key all return the fallback with the u
 test('secrets: API key never appears in any response or static file', async () => {
   const secret = 'sk-ant-SECRET-123';
   const content = [{ type: 'text', text: '{"explanation":"x"}' }];
-  const fetchImpl = async () => ({ ok: true, status: 200, json: async () => ({ content }) });
+  const fetchImpl = async () => ({ ok: true, status: 200, text: async () => JSON.stringify({ content }) });
   const server = createServer({ env, adapter: createExplainAdapter({ mode: 'live', apiKey: secret, fetchImpl }) });
   await new Promise((r) => server.listen(0, r));
   servers.push(server);
