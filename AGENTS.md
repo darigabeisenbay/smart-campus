@@ -10,6 +10,12 @@
   Any change there needs updated tests in `test/availability.test.js`.
 - Booking data in `src/data.js` is read-only at runtime.
 
+## LLM feature ("Explain availability")
+- The LLM must never decide availability or change bookings. It only receives the checker's result as data.
+- Never pass raw user text to the model. Facts are built in `src/explain/prompts.js#buildFacts`.
+- Every model output goes through `validateExplanation()`; on any failure use `fallback.js`.
+- Default mode is `mock` (free, offline). Tests must not call the real API.
+
 ## Security
 - Treat all request bodies as untrusted; validate with `src/validation.js`.
 - UI code must render text with `textContent`, never `innerHTML`.

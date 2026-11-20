@@ -1,0 +1,15 @@
+flowchart TB
+  U["Student UI<br/>(public/app.js)"] -->|"POST /api/explain<br/>{roomId, start, end}"| V["Validation<br/>src/validation.js<br/>empty / malformed / too long → 400"]
+  V --> R["Rule engine (source of truth)<br/>checkAvailability()<br/>→ {isAvailable, reasonCode}"]
+  R -->|"minimal facts:<br/>room, start, end,<br/>isAvailable, reasonCode"| A["Server-side LLM adapter<br/>mock | live | off<br/>timeout 4 s, key from env"]
+  A --> O["Output validation<br/>JSON contract, ≤2 sentences, ≤300 chars,<br/>agrees with status, no invented facts"]
+  O -->|valid| G["explanation<br/>source: mock / llm"]
+  O -->|"invalid / timeout /<br/>API error / no key"| F["Deterministic fallback<br/>src/explain/fallback.js"]
+  R -->|"status (never changed)"| RESP["Response<br/>{status, explanation}"]
+  G --> RESP
+  F --> RESP
+  RESP --> UI2["UI: 'Booking status (from booking rules)' box<br/>+ separate 'AI-generated explanation' panel"]
+  classDef trust fill:#e9f7ef,stroke:#1f8a4c;
+  classDef untrusted fill:#f7f5ff,stroke:#8a7fd6,stroke-dasharray: 4 3;
+  class V,R,O,F trust;
+  class A,G untrusted;
