@@ -1,0 +1,16 @@
+{
+  "name": "smart-campus-room-checker",
+  "version": "1.0.0",
+  "description": "Smart Campus Room Availability Checker (one room, fictional bookings, no login, no database)",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test test/",
+    "lint": "node scripts/lint.mjs",
+    "build": "node scripts/build.mjs"
+  }
+}
