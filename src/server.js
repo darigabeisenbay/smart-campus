@@ -7,6 +7,8 @@ import { ROOM } from './data.js';
 import { checkAvailability } from './availability.js';
 import { validateRequest, LIMITS } from './validation.js';
 import { nowLocal } from './time.js';
+import { adapterFromEnv } from './explain/adapter.js';
+import { buildFacts } from './explain/prompts.js';
 
 const PUBLIC_DIR = fileURLToPath(new URL('../public/', import.meta.url));
 const MIME = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8' };
@@ -69,14 +71,42 @@ export async function handleAvailability(req, env) {
   };
 }
 
-export function createServer({ env = process.env } = {}) {
+/**
+ * "Explain availability": re-runs the deterministic checker on the server (the client's
+ * status is never trusted), then asks the adapter for text. The status in the response
+ * always comes from the checker, never from the model.
+ */
+export async function handleExplain(req, env, adapter) {
+  const out = await handleAvailability(req, env);
+  if (out.status !== 200) return out;
+  const facts = buildFacts({ roomLabel: ROOM.label, ...out.input, ...out.result });
+  const explanation = await adapter.explain(facts);
+  return {
+    status: 200,
+    payload: {
+      status: out.payload,
+      explanation: {
+        text: explanation.text,
+        source: explanation.source,
+        generated: explanation.source !== 'fallback',
+        fallbackReason: explanation.fallbackReason
+      }
+    }
+  };
+}
+
+export function createServer({ env = process.env, adapter = adapterFromEnv(env) } = {}) {
   return http.createServer(async (req, res) => {
     try {
       if (req.method === 'GET' && req.url === '/api/room') {
-        return sendJson(res, 200, { id: ROOM.id, label: ROOM.label, now: nowLocal(env) });
+        return sendJson(res, 200, { id: ROOM.id, label: ROOM.label, now: nowLocal(env), explainMode: adapter.mode });
       }
       if (req.method === 'POST' && req.url === '/api/availability') {
         const out = await handleAvailability(req, env);
+        return sendJson(res, out.status, out.payload);
+      }
+      if (req.method === 'POST' && req.url === '/api/explain') {
+        const out = await handleExplain(req, env, adapter);
         return sendJson(res, out.status, out.payload);
       }
       if (req.method === 'GET') return serveStatic(req, res);

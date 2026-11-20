@@ -1,0 +1,91 @@
+{
+  "note": "Outputs produced in-session by Claude Opus 5.5 acting as the model for each system prompt (no API key / network in the classroom sandbox). Re-run live with: LLM_MODE=live ANTHROPIC_API_KEY=... node scripts/compare-prompts.mjs --live",
+  "scenarios": [
+    {
+      "name": "available",
+      "facts": {
+        "room": "Room A-101 (Group Study Room)",
+        "start": "2026-11-23T11:00",
+        "end": "2026-11-23T12:00",
+        "isAvailable": true,
+        "reasonCode": "AVAILABLE"
+      }
+    },
+    {
+      "name": "overlap",
+      "facts": {
+        "room": "Room A-101 (Group Study Room)",
+        "start": "2026-11-23T10:00",
+        "end": "2026-11-23T11:00",
+        "isAvailable": false,
+        "reasonCode": "OVERLAP"
+      }
+    },
+    {
+      "name": "blocked",
+      "facts": {
+        "room": "Room A-101 (Group Study Room)",
+        "start": "2026-11-24T10:00",
+        "end": "2026-11-24T11:00",
+        "isAvailable": false,
+        "reasonCode": "ROOM_BLOCKED"
+      }
+    },
+    {
+      "name": "invalid",
+      "facts": {
+        "room": "Room A-101 (Group Study Room)",
+        "start": "2026-11-23T12:00",
+        "end": "2026-11-23T11:00",
+        "isAvailable": false,
+        "reasonCode": "INVALID_TIME"
+      }
+    },
+    {
+      "name": "past",
+      "facts": {
+        "room": "Room A-101 (Group Study Room)",
+        "start": "2026-11-19T10:00",
+        "end": "2026-11-19T11:00",
+        "isAvailable": false,
+        "reasonCode": "PAST_TIME"
+      }
+    },
+    {
+      "name": "outside",
+      "facts": {
+        "room": "Room A-101 (Group Study Room)",
+        "start": "2026-11-23T07:00",
+        "end": "2026-11-23T08:30",
+        "isAvailable": false,
+        "reasonCode": "OUTSIDE_OPENING_HOURS"
+      }
+    }
+  ],
+  "outputs": {
+    "A": [
+      "Good news! Room A-101 (Group Study Room) is available on November 23, 2026 from 11:00 to 12:00. You can go ahead and book it for your study session.",
+      "Unfortunately, Room A-101 is not available from 10:00 to 11:00 on November 23 because it overlaps with an existing booking. You might want to try a slot after 11:00 or check another room. Let me know if you need help finding an alternative!",
+      "Room A-101 is currently unavailable on November 24 between 10:00 and 11:00 because it has been blocked, possibly for maintenance or a special event. Please choose a different day.",
+      "It looks like there's an issue with your request: the end time (11:00) is before the start time (12:00). Please adjust your times so the end comes after the start, and then check availability again.",
+      "The room can't be booked for November 19 from 10:00 to 11:00 because that time is already in the past. Please select a future date.",
+      "Room A-101 isn't available from 07:00 to 08:30 because it falls outside the room's opening hours, which typically start at 8:00 AM. Try booking from 08:00 onward."
+    ],
+    "B": [
+      "Room A-101 (Group Study Room) is available on 2026-11-23 from 11:00 to 12:00. No booking rule prevents this time.",
+      "Room A-101 (Group Study Room) is not available from 10:00 to 11:00 on 2026-11-23. The requested time overlaps an existing booking.",
+      "Room A-101 is not available on 2026-11-24 from 10:00 to 11:00 because the room is blocked during that time.",
+      "Your request is not valid because the end time (11:00) is before the start time (12:00). Please choose an end time after the start.",
+      "This booking is not possible because 2026-11-19 at 10:00 is in the past.",
+      "Room A-101 is not available from 07:00 to 08:30 because this is outside the room's opening hours."
+    ],
+    "C": [
+      "{\"explanation\": \"Good news: Room A-101 (Group Study Room) is free from 11:00 to 12:00 on 2026-11-23, because no booking rule blocks that time.\"}",
+      "{\"explanation\": \"Room A-101 (Group Study Room) is not available from 10:00 to 11:00 on 2026-11-23 because that time overlaps an existing booking. You are welcome to check a different time.\"}",
+      "{\"explanation\": \"Room A-101 (Group Study Room) is not available on 2026-11-24 from 10:00 to 11:00 because the room is blocked for bookings during that time.\"}",
+      "{\"explanation\": \"This request is not valid because the end time 11:00 is not after the start time 12:00. Please choose an end time later than the start.\"}",
+      "{\"explanation\": \"Room A-101 cannot be booked from 10:00 to 11:00 on 2026-11-19 because that start time is already in the past.\"}",
+      "{\"explanation\": \"Room A-101 (Group Study Room) is not available from 07:00 to 08:30 because that time is outside the room's opening hours.\"}"
+    ]
+  }
+}

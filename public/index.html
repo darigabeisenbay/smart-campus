@@ -25,6 +25,17 @@
       <div class="status-label">Booking status (from booking rules)</div>
       <div id="status-text" class="status-text"></div>
       <div id="status-code" class="muted small"></div>
+      <button id="explain-btn" type="button" class="secondary">Explain availability</button>
+    </section>
+
+    <section id="explain" class="explain hidden" aria-live="polite">
+      <div class="explain-label">
+        <span id="explain-title">AI-generated explanation</span>
+        <span id="explain-badge" class="badge"></span>
+      </div>
+      <p id="explain-text" class="explain-text"></p>
+      <p class="muted small">This text only explains the status above. It is not a booking confirmation and cannot change the
+        booking status.</p>
     </section>
 
     <p id="error" class="error hidden" role="alert"></p>

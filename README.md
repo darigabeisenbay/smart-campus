@@ -26,6 +26,26 @@ Set `SMART_CAMPUS_NOW=2026-11-20T09:00` to pin the clock for demos and tests.
 | No overlap with an existing booking (half-open intervals, back-to-back allowed) | `OVERLAP` |
 | Otherwise | `AVAILABLE` |
 
+## "Explain availability" (optional LLM feature)
+
+After a check, the student can press **Explain availability**. The server re-runs the checker, sends only
+`room, start, end, isAvailable, reasonCode` to the LLM adapter and validates the answer. The status itself is never
+produced or changed by the model. See `docs/FEATURE_SPEC.md`.
+
+| Env var | Default | Meaning |
+|---|---|---|
+| `LLM_MODE` | `mock` | `mock` (free, offline), `live` (Anthropic API), `off` (always deterministic text) |
+| `ANTHROPIC_API_KEY` | – | server-side only; missing key → fallback |
+| `LLM_MODEL` | `claude-haiku-5-5` | model for live mode |
+| `LLM_TIMEOUT_MS` | `4000` | adapter timeout |
+| `LLM_PROMPT_VARIANT` | `C` | prompt A/B/C (see `docs/prompt-eval/`) |
+| `LLM_MOCK_BEHAVIOR` | `ok` | demo failures: `timeout`, `error`, `invalid`, `contradict`, `invent` |
+
+```bash
+node scripts/compare-prompts.mjs          # score prompts A/B/C on recorded outputs
+node scripts/compare-prompts.mjs --live   # regenerate with the real API (needs key)
+```
+
 ## Project map
 
 - `src/availability.js` – deterministic availability function `checkAvailability()`
@@ -33,4 +53,5 @@ Set `SMART_CAMPUS_NOW=2026-11-20T09:00` to pin the clock for demos and tests.
 - `src/data.js` – the single room, fictional bookings and blocked periods
 - `src/server.js` – HTTP server and JSON API
 - `public/` – UI component (`index.html`, `app.js`, `styles.css`)
+- `src/explain/` – LLM adapter, prompts, output validation, deterministic fallback
 - `AGENTS.md` – instructions for coding agents
