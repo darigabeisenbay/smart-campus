@@ -1,0 +1,93 @@
+
+> smart-campus-room-checker@1.0.0 test
+> node --test
+
+TAP version 13
+# Subtest: free slot is available
+ok 1 - free slot is available
+  ---
+  duration_ms: 2.13979
+  type: 'test'
+  ...
+# Subtest: overlap with an existing booking is rejected
+ok 2 - overlap with an existing booking is rejected
+  ---
+  duration_ms: 0.318135
+  type: 'test'
+  ...
+# Subtest: adjacent slots do not overlap (half-open intervals)
+ok 3 - adjacent slots do not overlap (half-open intervals)
+  ---
+  duration_ms: 0.140797
+  type: 'test'
+  ...
+# Subtest: blocked room is rejected
+ok 4 - blocked room is rejected
+  ---
+  duration_ms: 0.13834
+  type: 'test'
+  ...
+# Subtest: invalid times are rejected
+ok 5 - invalid times are rejected
+  ---
+  duration_ms: 0.222396
+  type: 'test'
+  ...
+# Subtest: past time is rejected
+ok 6 - past time is rejected
+  ---
+  duration_ms: 0.084371
+  type: 'test'
+  ...
+# Subtest: outside opening hours is rejected
+ok 7 - outside opening hours is rejected
+  ---
+  duration_ms: 0.160409
+  type: 'test'
+  ...
+# Subtest: result object is immutable
+ok 8 - result object is immutable
+  ---
+  duration_ms: 0.233938
+  type: 'test'
+  ...
+# Subtest: valid request passes
+ok 9 - valid request passes
+  ---
+  duration_ms: 1.327776
+  type: 'test'
+  ...
+# Subtest: empty input is rejected
+ok 10 - empty input is rejected
+  ---
+  duration_ms: 0.149891
+  type: 'test'
+  ...
+# Subtest: malformed input is rejected
+ok 11 - malformed input is rejected
+  ---
+  duration_ms: 0.985402
+  type: 'test'
+  ...
+# Subtest: overly long input is rejected
+ok 12 - overly long input is rejected
+  ---
+  duration_ms: 0.151777
+  type: 'test'
+  ...
+# Subtest: unknown room is rejected
+ok 13 - unknown room is rejected
+  ---
+  duration_ms: 0.180242
+  type: 'test'
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 119.394103
+EXIT=0

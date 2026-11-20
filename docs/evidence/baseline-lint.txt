@@ -1,0 +1,6 @@
+
+> smart-campus-room-checker@1.0.0 lint
+> node scripts/lint.mjs
+
+lint: OK (10 files checked, 0 problems)
+EXIT=0

@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "node src/server.js",
-    "test": "node --test test/",
+    "test": "node --test",
     "lint": "node scripts/lint.mjs",
     "build": "node scripts/build.mjs"
   }

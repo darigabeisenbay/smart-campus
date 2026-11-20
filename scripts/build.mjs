@@ -10,7 +10,8 @@ cpSync('package.json', 'dist/package.json');
 
 const modules = readdirSync('dist/src', { recursive: true }).filter((f) => String(f).endsWith('.js'));
 for (const m of modules) execFileSync(process.execPath, ['--check', join('dist/src', String(m))], { stdio: 'pipe' });
-execFileSync(process.execPath, ['-e', "import('./dist/src/server.js').then(m => { if (typeof m.createServer !== 'function') process.exit(1); })"]);
+const smoke = "import('./dist/src/server.js').then((m) => { if (typeof m.createServer !== 'function') process.exit(1); })";
+execFileSync(process.execPath, ['-e', smoke]);
 
 writeFileSync('dist/build-info.json', JSON.stringify({ builtAt: new Date().toISOString(), modules: modules.length }, null, 2));
 console.log(`build: OK (dist/ created, ${modules.length} server modules verified)`);

@@ -1,0 +1,8 @@
+
+> smart-campus-room-checker@1.0.0 lint
+> node scripts/lint.mjs
+
+scripts/build.mjs:13 line longer than 140 chars
+
+lint: 1 problem(s) in 10 files
+EXIT=1
