@@ -1,0 +1,15 @@
+## P2 validator bypass
+{"ok":true,"text":"This time overlaps an existing booking, but the room is vacant so just walk in."} | This time overlaps an existing booking, but the room is vacant so just walk in.
+{"ok":true,"text":"This time overlaps an existing booking, yet nobody will stop you from using it."} | This time overlaps an existing booking, yet nobody will stop you from using it.
+{"ok":true,"text":"This time overlaps an existing booking; contact the front desk to override it."} | This time overlaps an existing booking; contact the front desk to override it.
+{"ok":true,"text":"This room is free from 11:00 to 12:00, but it might be busy."} | This room is free from 11:00 to 12:00, but it might be busy.
+{"ok":false,"reason":"CONTRADICTS_STATUS"} | This time overlaps an existing booking, please come by anyway.
+## P3 coupling to demo data
+{"ok":false,"reason":"INVENTED_DETAIL"}
+## P4 malformed data silently ignored
+good booking   {"isAvailable":false,"reasonCode":"OVERLAP"}
+bad end "10:3" {"isAvailable":true,"reasonCode":"AVAILABLE"}
+bad blocked    {"isAvailable":true,"reasonCode":"AVAILABLE"}
+## P5 rate-limit wipe
+victim true true false
+after 10,001 other keys, over-limit client allowed again? false true

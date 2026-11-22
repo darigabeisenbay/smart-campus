@@ -1,0 +1,25 @@
+## P9 stale docs
+$ sed -n 3p src/time.js
+// never depends on the server's time zone.
+$ grep -n "hardcodes" a05/01-baseline.md
+43:| W5 | **E2E script is not reproducible from the README** | `scripts/ui_scenarios.py:65` hardcodes `/usr/bin/google-c
+## P10 lint gaps
+$ grep -n "innerHTML\|console" scripts/lint.mjs
+30:    if (file.startsWith('public') && /\.innerHTML\s*=|insertAdjacentHTML/.test(line)) {
+31:      problems.push(`${at} innerHTML is not allowed in UI code (XSS); use textContent`);
+33:    if (file.startsWith('src') && /console\.log/.test(line)) problems.push(`${at} console.log in src`);
+38:  console.error(problems.join('\n'));
+39:  console.error(`\nlint: ${problems.length} problem(s) in ${files.length} files`);
+42:console.log(`lint: OK (${files.length} files checked, 0 problems)`);
+## P12 dependency
+$ python3 -c "import importlib.metadata as m; print(m.version(\"playwright\"))"
+1.63.0
+$ which -a node; node -v
+v22.23.5
+## P7
+$ git ls-files docs/prompt-eval
+docs/prompt-eval/outputs.json
+docs/prompt-eval/results.md
+4:import { readFileSync, writeFileSync } from 'node:fs';
+21:  writeFileSync(DATA, JSON.stringify(data, null, 2));
+60:writeFileSync('docs/prompt-eval/results.md', `${md}\n`);
