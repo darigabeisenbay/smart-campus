@@ -10,6 +10,7 @@ import { nowLocal } from './time.js';
 import { adapterFromEnv } from './explain/adapter.js';
 import { buildFacts } from './explain/prompts.js';
 import { fallbackExplanation } from './explain/fallback.js';
+import { reasonFor } from './reasons.js';
 
 /** Per-IP fixed-window limit for paid model calls (live mode only; agent R8 / manual M3). */
 export function createRateLimiter({ perMinute = 10, now = () => Date.now() } = {}) {
@@ -88,7 +89,10 @@ export async function handleAvailability(req, env) {
     status: 200,
     input: input.value,
     result,
-    payload: { room: ROOM.label, start: input.value.start, end: input.value.end, ...result }
+    payload: {
+      room: ROOM.label, start: input.value.start, end: input.value.end, ...result,
+      statusText: reasonFor(result.reasonCode)?.statusText ?? (result.isAvailable ? 'Available' : 'Not available')
+    }
   };
 }
 

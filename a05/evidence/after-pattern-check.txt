@@ -1,0 +1,438 @@
+$ npm run check   # after pattern refactoring
+
+> smart-campus-room-checker@1.0.0 check
+> npm test && npm run lint && npm run build
+
+
+> smart-campus-room-checker@1.0.0 test
+> node --test
+
+TAP version 13
+# Subtest: A05-AC1: booking decisions for the golden scenarios are unchanged
+ok 1 - A05-AC1: booking decisions for the golden scenarios are unchanged
+  ---
+  duration_ms: 1.259395
+  type: 'test'
+  ...
+# Subtest: A05-AC2: /api/explain returns exactly the /api/availability status
+ok 2 - A05-AC2: /api/explain returns exactly the /api/availability status
+  ---
+  duration_ms: 49.613069
+  type: 'test'
+  ...
+# Subtest: A05-AC3: empty, malformed and overly long input is rejected with HTTP 400
+ok 3 - A05-AC3: empty, malformed and overly long input is rejected with HTTP 400
+  ---
+  duration_ms: 9.023042
+  type: 'test'
+  ...
+# Subtest: A05-AC4: model timeout, error and missing key give the deterministic fallback with the same status
+ok 4 - A05-AC4: model timeout, error and missing key give the deterministic fallback with the same status
+  ---
+  duration_ms: 512.556177
+  type: 'test'
+  ...
+# Subtest: free slot is available
+ok 5 - free slot is available
+  ---
+  duration_ms: 1.27945
+  type: 'test'
+  ...
+# Subtest: overlap with an existing booking is rejected
+ok 6 - overlap with an existing booking is rejected
+  ---
+  duration_ms: 0.402781
+  type: 'test'
+  ...
+# Subtest: adjacent slots do not overlap (half-open intervals)
+ok 7 - adjacent slots do not overlap (half-open intervals)
+  ---
+  duration_ms: 0.115562
+  type: 'test'
+  ...
+# Subtest: blocked room is rejected
+ok 8 - blocked room is rejected
+  ---
+  duration_ms: 0.074775
+  type: 'test'
+  ...
+# Subtest: invalid times are rejected
+ok 9 - invalid times are rejected
+  ---
+  duration_ms: 0.167175
+  type: 'test'
+  ...
+# Subtest: past time is rejected
+ok 10 - past time is rejected
+  ---
+  duration_ms: 0.070842
+  type: 'test'
+  ...
+# Subtest: outside opening hours is rejected
+ok 11 - outside opening hours is rejected
+  ---
+  duration_ms: 0.104866
+  type: 'test'
+  ...
+# Subtest: result object is immutable
+ok 12 - result object is immutable
+  ---
+  duration_ms: 0.173127
+  type: 'test'
+  ...
+# Subtest: mock mode explains every reason code from structured data and passes validation
+ok 13 - mock mode explains every reason code from structured data and passes validation
+  ---
+  duration_ms: 5.456142
+  type: 'test'
+  ...
+# Subtest: AC4: timeout produces the deterministic fallback quickly
+ok 14 - AC4: timeout produces the deterministic fallback quickly
+  ---
+  duration_ms: 501.790692
+  type: 'test'
+  ...
+# Subtest: AC4: timeout works even if the model ignores the abort signal
+ok 15 - AC4: timeout works even if the model ignores the abort signal
+  ---
+  duration_ms: 30.308382
+  type: 'test'
+  ...
+# Subtest: AC4: simulated API error produces the fallback
+ok 16 - AC4: simulated API error produces the fallback
+  ---
+  duration_ms: 0.403653
+  type: 'test'
+  ...
+# Subtest: AC4: unavailable key in live mode produces the fallback without any network call
+ok 17 - AC4: unavailable key in live mode produces the fallback without any network call
+  ---
+  duration_ms: 0.207964
+  type: 'test'
+  ...
+# Subtest: AC4: live HTTP 401/500 and network failure produce the fallback
+ok 18 - AC4: live HTTP 401/500 and network failure produce the fallback
+  ---
+  duration_ms: 0.714843
+  type: 'test'
+  ...
+# Subtest: live mode: key stays in the server-side header and the prompt contains only structured facts
+ok 19 - live mode: key stays in the server-side header and the prompt contains only structured facts
+  ---
+  duration_ms: 0.693599
+  type: 'test'
+  ...
+# Subtest: AC2: model output that contradicts the status or invents details is replaced by the fallback
+ok 20 - AC2: model output that contradicts the status or invents details is replaced by the fallback
+  ---
+  duration_ms: 0.401444
+  type: 'test'
+  ...
+# Subtest: untrusted model output: prompt-injection style replies are rejected
+ok 21 - untrusted model output: prompt-injection style replies are rejected
+  ---
+  duration_ms: 0.411184
+  type: 'test'
+  ...
+# Subtest: parseModelJson enforces the {explanation: string} contract
+ok 22 - parseModelJson enforces the {explanation: string} contract
+  ---
+  duration_ms: 0.292267
+  type: 'test'
+  ...
+# Subtest: off mode always returns the deterministic explanation
+ok 23 - off mode always returns the deterministic explanation
+  ---
+  duration_ms: 0.088868
+  type: 'test'
+  ...
+# Subtest: every deterministic fallback text passes the validator (fallback is always safe)
+ok 24 - every deterministic fallback text passes the validator (fallback is always safe)
+  ---
+  duration_ms: 4.418621
+  type: 'test'
+  ...
+# Subtest: accepts a correct two-sentence explanation
+ok 25 - accepts a correct two-sentence explanation
+  ---
+  duration_ms: 0.256333
+  type: 'test'
+  ...
+# Subtest: AC2: rejects text that contradicts the deterministic status
+ok 26 - AC2: rejects text that contradicts the deterministic status
+  ---
+  duration_ms: 0.437996
+  type: 'test'
+  ...
+# Subtest: AC2: rejects text that does not mention the actual reason
+ok 27 - AC2: rejects text that does not mention the actual reason
+  ---
+  duration_ms: 0.134154
+  type: 'test'
+  ...
+# Subtest: AC2: rejects invented times, dates, rooms and booking details
+ok 28 - AC2: rejects invented times, dates, rooms and booking details
+  ---
+  duration_ms: 0.176398
+  type: 'test'
+  ...
+# Subtest: allows words that are part of the supplied room label
+ok 29 - allows words that are part of the supplied room label
+  ---
+  duration_ms: 0.098872
+  type: 'test'
+  ...
+# Subtest: rejects claims that the assistant booked or cancelled something
+ok 30 - rejects claims that the assistant booked or cancelled something
+  ---
+  duration_ms: 0.15057
+  type: 'test'
+  ...
+# Subtest: format and length validation
+ok 31 - format and length validation
+  ---
+  duration_ms: 0.10469
+  type: 'test'
+  ...
+# Subtest: catalog has exactly the rule-engine codes, each with every field
+ok 32 - catalog has exactly the rule-engine codes, each with every field
+  ---
+  duration_ms: 1.102414
+  type: 'test'
+  ...
+# Subtest: catalog texts agree with the decision: fallback and mock pass the validator, status text matches availability
+ok 33 - catalog texts agree with the decision: fallback and mock pass the validator, status text matches availability
+  ---
+  duration_ms: 4.436905
+  type: 'test'
+  ...
+# Subtest: unknown codes are handled safely
+ok 34 - unknown codes are handled safely
+  ---
+  duration_ms: 0.137818
+  type: 'test'
+  ...
+# Subtest: R1: paraphrased contradictions of "not available" are rejected
+ok 35 - R1: paraphrased contradictions of "not available" are rejected
+  ---
+  duration_ms: 3.469165
+  type: 'test'
+  ...
+# Subtest: R1: "available" result must not be described as unavailable
+ok 36 - R1: "available" result must not be described as unavailable
+  ---
+  duration_ms: 1.142334
+  type: 'test'
+  ...
+# Subtest: R2: claims of booking actions are rejected
+ok 37 - R2: claims of booking actions are rejected
+  ---
+  duration_ms: 0.18718
+  type: 'test'
+  ...
+# Subtest: R3: holder names, other names and causes are rejected (room label still allowed)
+ok 38 - R3: holder names, other names and causes are rejected (room label still allowed)
+  ---
+  duration_ms: 0.319766
+  type: 'test'
+  ...
+# Subtest: R4: invisible characters cannot hide forbidden words
+ok 39 - R4: invisible characters cannot hide forbidden words
+  ---
+  duration_ms: 0.136863
+  type: 'test'
+  ...
+# Subtest: R5: correct natural phrasings are accepted; abbreviations are not sentence ends
+ok 40 - R5: correct natural phrasings are accepted; abbreviations are not sentence ends
+  ---
+  duration_ms: 0.143399
+  type: 'test'
+  ...
+# Subtest: M1: invented times and dates inside ISO date-times are caught
+ok 41 - M1: invented times and dates inside ISO date-times are caught
+  ---
+  duration_ms: 0.099457
+  type: 'test'
+  ...
+# Subtest: M2: other rooms are caught in any form
+ok 42 - M2: other rooms are caught in any form
+  ---
+  duration_ms: 0.085836
+  type: 'test'
+  ...
+# Subtest: R6: timeout is clamped and a client abort cancels the model call
+ok 43 - R6: timeout is clamped and a client abort cancels the model call
+  ---
+  duration_ms: 1.002809
+  type: 'test'
+  ...
+# Subtest: R7: one fenced JSON block is accepted, prose still rejected
+ok 44 - R7: one fenced JSON block is accepted, prose still rejected
+  ---
+  duration_ms: 0.56568
+  type: 'test'
+  ...
+# Subtest: R8: identical facts hit the cache; in-flight calls are capped
+ok 45 - R8: identical facts hit the cache; in-flight calls are capped
+  ---
+  duration_ms: 602.054712
+  type: 'test'
+  ...
+# Subtest: R8: rate limiter allows N per minute per IP
+ok 46 - R8: rate limiter allows N per minute per IP
+  ---
+  duration_ms: 0.674746
+  type: 'test'
+  ...
+# Subtest: R8: live mode over HTTP: the 11th explain request in a minute gets the fallback, status unchanged
+ok 47 - R8: live mode over HTTP: the 11th explain request in a minute gets the fallback, status unchanged
+  ---
+  duration_ms: 40.378476
+  type: 'test'
+  ...
+# Subtest: R6: server aborts the model call when the client disconnects
+ok 48 - R6: server aborts the model call when the client disconnects
+  ---
+  duration_ms: 23.445689
+  type: 'test'
+  ...
+# Subtest: M6: non-JSON POST gets 415 and 404s carry security headers
+ok 49 - M6: non-JSON POST gets 415 and 404s carry security headers
+  ---
+  duration_ms: 6.128215
+  type: 'test'
+  ...
+# Subtest: M4: oversized upstream body is rejected
+ok 50 - M4: oversized upstream body is rejected
+  ---
+  duration_ms: 0.20701
+  type: 'test'
+  ...
+# Subtest: scenario "available": explain returns the deterministic status unchanged + labelled explanation
+ok 51 - scenario "available": explain returns the deterministic status unchanged + labelled explanation
+  ---
+  duration_ms: 24.777145
+  type: 'test'
+  ...
+# Subtest: scenario "overlap": explain returns the deterministic status unchanged + labelled explanation
+ok 52 - scenario "overlap": explain returns the deterministic status unchanged + labelled explanation
+  ---
+  duration_ms: 7.305232
+  type: 'test'
+  ...
+# Subtest: scenario "blocked room": explain returns the deterministic status unchanged + labelled explanation
+ok 53 - scenario "blocked room": explain returns the deterministic status unchanged + labelled explanation
+  ---
+  duration_ms: 4.201872
+  type: 'test'
+  ...
+# Subtest: scenario "invalid time": explain returns the deterministic status unchanged + labelled explanation
+ok 54 - scenario "invalid time": explain returns the deterministic status unchanged + labelled explanation
+  ---
+  duration_ms: 3.912372
+  type: 'test'
+  ...
+# Subtest: scenario "past time": explain returns the deterministic status unchanged + labelled explanation
+ok 55 - scenario "past time": explain returns the deterministic status unchanged + labelled explanation
+  ---
+  duration_ms: 6.422421
+  type: 'test'
+  ...
+# Subtest: scenario "outside hours": explain returns the deterministic status unchanged + labelled explanation
+ok 56 - scenario "outside hours": explain returns the deterministic status unchanged + labelled explanation
+  ---
+  duration_ms: 3.187473
+  type: 'test'
+  ...
+# Subtest: AC1: explain feature does not change booking data or the checker
+ok 57 - AC1: explain feature does not change booking data or the checker
+  ---
+  duration_ms: 8.879312
+  type: 'test'
+  ...
+# Subtest: client-supplied status fields are rejected, not trusted
+ok 58 - client-supplied status fields are rejected, not trusted
+  ---
+  duration_ms: 6.718082
+  type: 'test'
+  ...
+# Subtest: AC3: empty, malformed and overly long input is rejected on both endpoints
+ok 59 - AC3: empty, malformed and overly long input is rejected on both endpoints
+  ---
+  duration_ms: 21.796276
+  type: 'test'
+  ...
+# Subtest: AC4: timeout, API error and missing key all return the fallback with the unchanged status
+ok 60 - AC4: timeout, API error and missing key all return the fallback with the unchanged status
+  ---
+  duration_ms: 508.797299
+  type: 'test'
+  ...
+# Subtest: secrets: API key never appears in any response or static file
+ok 61 - secrets: API key never appears in any response or static file
+  ---
+  duration_ms: 6.821267
+  type: 'test'
+  ...
+# Subtest: UI files label generated text separately from the confirmed status (AC5) and never use innerHTML
+ok 62 - UI files label generated text separately from the confirmed status (AC5) and never use innerHTML
+  ---
+  duration_ms: 2.536865
+  type: 'test'
+  ...
+# Subtest: path traversal and unknown routes are refused
+ok 63 - path traversal and unknown routes are refused
+  ---
+  duration_ms: 1.919069
+  type: 'test'
+  ...
+# Subtest: valid request passes
+ok 64 - valid request passes
+  ---
+  duration_ms: 1.156421
+  type: 'test'
+  ...
+# Subtest: empty input is rejected
+ok 65 - empty input is rejected
+  ---
+  duration_ms: 0.118628
+  type: 'test'
+  ...
+# Subtest: malformed input is rejected
+ok 66 - malformed input is rejected
+  ---
+  duration_ms: 0.960127
+  type: 'test'
+  ...
+# Subtest: overly long input is rejected
+ok 67 - overly long input is rejected
+  ---
+  duration_ms: 0.167052
+  type: 'test'
+  ...
+# Subtest: unknown room is rejected
+ok 68 - unknown room is rejected
+  ---
+  duration_ms: 0.153184
+  type: 'test'
+  ...
+1..68
+# tests 68
+# suites 0
+# pass 68
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 6816.172321
+
+> smart-campus-room-checker@1.0.0 lint
+> node scripts/lint.mjs
+
+lint: OK (22 files checked, 0 problems)
+
+> smart-campus-room-checker@1.0.0 build
+> node scripts/build.mjs
+
+build: OK (dist/ created, 10 server modules verified)
+EXIT=0

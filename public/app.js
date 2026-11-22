@@ -1,15 +1,6 @@
 // Browser UI. Renders only what the server returns; all text goes through textContent.
 const $ = (id) => document.getElementById(id);
 
-const STATUS_TEXT = {
-  AVAILABLE: 'Available',
-  OVERLAP: 'Not available – overlaps an existing booking',
-  ROOM_BLOCKED: 'Not available – room is blocked',
-  INVALID_TIME: 'Not available – invalid time range',
-  PAST_TIME: 'Not available – time is in the past',
-  OUTSIDE_OPENING_HOURS: 'Not available – outside opening hours'
-};
-
 const ERROR_TEXT = {
   EMPTY_INPUT: 'Please fill in both start and end time.',
   MALFORMED_INPUT: 'The request was not in the expected format.',
@@ -49,7 +40,8 @@ function renderStatus(result) {
   const box = $('status');
   box.classList.remove('hidden', 'ok', 'no');
   box.classList.add(result.isAvailable ? 'ok' : 'no');
-  $('status-text').textContent = STATUS_TEXT[result.reasonCode] || (result.isAvailable ? 'Available' : 'Not available');
+  // Status wording comes from the server's reason catalog (src/reasons.js); never derived from the explanation.
+  $('status-text').textContent = result.statusText || (result.isAvailable ? 'Available' : 'Not available');
   $('status-code').textContent = `Reason code: ${result.reasonCode} · ${result.start} → ${result.end}`;
 }
 

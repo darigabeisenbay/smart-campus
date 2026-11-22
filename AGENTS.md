@@ -15,6 +15,7 @@ public/ (UI, vanilla JS) ──HTTP──► src/server.js ──► src/validat
                                          └─► src/explain/adapter.js ─► model (mock | live | off)
                                                    ├─ validateExplanation.js (untrusted output check)
                                                    └─ fallback.js (deterministic text)
+src/reasons.js  – one catalog record per reason code (status text, glossary, fallback, topic, mock text)
 src/data.js     – the room, bookings, blocked periods (read-only at runtime)
 src/time.js     – campus clock and date parsing
 ```
@@ -56,6 +57,7 @@ Anything not in this list: explain why and ask first.
 - ES modules, `const`/`let`, no `var`, no `eval`/`new Function`; lines ≤ 140 chars (enforced by lint).
 - UI renders text with `textContent` only – never `innerHTML`.
 - No `console.log` in `src/`. Never log request bodies, explanations or keys.
+- Reason-code knowledge lives in `src/reasons.js` only – never add a `switch (reasonCode)` or a per-code map elsewhere.
 - Keep functions pure where possible; inject clocks, fetch and adapters for tests.
 - Small, focused commits with a message that says *why*.
 
