@@ -1,0 +1,17 @@
+{"ts":"2026-11-22T13:49:57.358Z","level":"warn","event":"exp
+{"ts":"2026-11-22T13:49:57.905Z","level":"warn","event":"exp
+{"ts":"2026-11-22T13:49:58.140Z","level":"warn","event":"exp
+{"ts":"2026-11-22T13:49:58.425Z","level":"warn","event":"exp
+T01 PASS | available | status "Available"; after explain "Av
+T02 PASS | overlap | status "Not available – overlaps an e
+T03 PASS | blocked room | status "Not available – room is 
+T04 PASS | invalid time (end before start) | status "Not ava
+T05 PASS | past time | status "Not available – time is in 
+T06 PASS | outside opening hours | status "Not available –
+T07 PASS | empty input | error "Please fill in both start an
+T08 PASS | overly long input (prompt-injection text, 600 cha
+T08b PASS | malformed input | error "The request was not in 
+T09 PASS | LLM timeout | status "Not available – overlaps 
+T10 PASS | simulated API failure | status "Not available –
+T11 PASS | unavailable API key (live mode) | status "Availab
+T12 PASS | model contradicts status | status "Not available 

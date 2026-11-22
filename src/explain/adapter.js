@@ -3,6 +3,7 @@
 import { SYSTEM_PROMPTS, DEFAULT_PROMPT, buildUserMessage } from './prompts.js';
 import { validateExplanation } from './validateExplanation.js';
 import { fallbackExplanation } from './fallback.js';
+import { reasonFor, UNKNOWN_REASON_TEXT } from '../reasons.js';
 
 export const DEFAULT_TIMEOUT_MS = 4000;
 // Clamped below the browser's 8 s limit so no server work outlives the page (agent R6).
@@ -63,19 +64,8 @@ export function parseModelJson(raw) {
 }
 
 // ---- Mock model: builds a friendly explanation from structured data only ----
-const hhmm = (v) => v.slice(11, 16);
 function mockText(f) {
-  const when = `from ${hhmm(f.start)} to ${hhmm(f.end)} on ${f.start.slice(0, 10)}`;
-  switch (f.reasonCode) {
-    case 'AVAILABLE': return `Good news: ${f.room} is free ${when}, because no booking rule blocks that time.`;
-    case 'OVERLAP': return `Sorry, ${f.room} is not available ${when} because that time overlaps an existing booking.`;
-    case 'ROOM_BLOCKED': return `Sorry, ${f.room} is not available ${when} because the room is blocked for bookings then.`;
-    case 'PAST_TIME': return `This time cannot be booked because the start time is already in the past. Please choose a future time.`;
-    case 'OUTSIDE_OPENING_HOURS': return `Sorry, ${f.room} is not available ${when} because it is outside the room's opening hours.`;
-    case 'INVALID_TIME':
-      return 'This time range is not valid: the end must be after the start, on the same day, and within the maximum length.';
-    default: return 'The booking rules decided the status shown above.';
-  }
+  return reasonFor(f.reasonCode)?.mock(f) ?? UNKNOWN_REASON_TEXT;
 }
 
 export function createMockModel(behavior = 'ok') {

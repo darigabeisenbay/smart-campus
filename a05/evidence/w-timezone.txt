@@ -1,0 +1,6 @@
+$ TZ=UTC node -e "import(\"./src/time.js\").then(m=>console.log(m.nowLocal({})))"
+2026-11-22T13:37
+$ TZ=Asia/Qyzylorda node -e "...same..."
+2026-11-22T18:37
+# consequence: same instant, checker decision differs for a slot between the two clocks
+UTC server now = 2026-11-22T13:37 ; request today 15:00-15:30 → {"isAvailable":true,"reasonCode":"AVAILABLE"}

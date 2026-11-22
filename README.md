@@ -9,11 +9,17 @@ npm start            # http://localhost:3000
 npm test             # node:test unit + integration tests
 npm run lint         # zero-dependency lint (scripts/lint.mjs)
 npm run build        # copies to dist/ and verifies modules load
+npm run check        # test + lint + build
 ```
 
-Requires Node.js 20+. There are no npm dependencies.
+Optional E2E screenshots (Task 05 evidence): `pip install -r requirements-dev.txt`, then
+`python3 -m playwright install chromium` (or set `CHROME_PATH`), then `python3 scripts/ui_scenarios.py`.
+It starts servers on ports 3101–3105 and writes `docs/screenshots/`.
 
-Set `SMART_CAMPUS_NOW=2026-11-20T09:00` to pin the clock for demos and tests.
+Tested on Node.js 22 (`engines` allows ≥ 20, not verified). There are no npm dependencies.
+
+The campus clock uses `CAMPUS_TZ` (IANA zone, default `Asia/Qyzylorda`), never the server's own time zone;
+an invalid zone stops the server at startup. Set `SMART_CAMPUS_NOW=2026-11-20T09:00` to pin the clock for demos and tests.
 
 ## Booking rules (source of truth: `src/availability.js`)
 
@@ -39,6 +45,8 @@ produced or changed by the model. See `docs/FEATURE_SPEC.md`.
 | `LLM_MODEL` | `claude-haiku-5-5` | model for live mode |
 | `LLM_TIMEOUT_MS` | `4000` | adapter timeout, clamped to 500–7000 ms (below the browser's 8 s) |
 | `EXPLAIN_RATE_LIMIT_PER_MIN` | `10` | per-IP limit on explain calls in live mode |
+| `CAMPUS_TZ` | `Asia/Qyzylorda` | campus time zone for "now" (invalid zone → startup error) |
+| `LOG_LEVEL` | `info` | `info`, `warn`, `error`, `silent`; JSON lines on stderr (`explain.fallback`, `server.error`), never request content or keys |
 | `LLM_PROMPT_VARIANT` | `C` | prompt A/B/C (see `docs/prompt-eval/`) |
 | `LLM_MOCK_BEHAVIOR` | `ok` | demo failures: `timeout`, `error`, `invalid`, `contradict`, `invent` |
 
@@ -55,4 +63,4 @@ node scripts/compare-prompts.mjs --live   # regenerate with the real API (needs 
 - `src/server.js` – HTTP server and JSON API
 - `public/` – UI component (`index.html`, `app.js`, `styles.css`)
 - `src/explain/` – LLM adapter, prompts, output validation, deterministic fallback
-- `AGENTS.md` – instructions for coding agents
+- `AGENTS.md` – instructions for coding agents (`CLAUDE.md` imports it)

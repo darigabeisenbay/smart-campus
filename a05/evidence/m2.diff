@@ -1,0 +1,87 @@
+diff --git a/src/log.js b/src/log.js
+new file mode 100644
+index 0000000..7845383
+--- /dev/null
++++ b/src/log.js
+@@ -0,0 +1,29 @@
++// Minimal structured logger (risk R02): one JSON line per event on stderr.
++// Privacy by construction: only allowlisted field names are written, and values are reduced to short
++// identifier-like strings, so request bodies, explanations, times and keys cannot end up in the log.
++
++const ALLOWED_FIELDS = Object.freeze(['reason', 'mode', 'route', 'error', 'status']);
++const LEVELS = Object.freeze({ silent: 0, error: 1, warn: 2, info: 3 });
++
++const safeValue = (v) => String(v).replace(/[^A-Za-z0-9_./-]+/g, '_').slice(0, 64);
++
++/**
++ * @param {{ level?: string, sink?: (line: string) => void, now?: () => string }} [options]
++ */
++export function createLogger({
++  level = 'info',
++  sink = (line) => process.stderr.write(`${line}\n`),
++  now = () => new Date().toISOString()
++} = {}) {
++  const threshold = LEVELS[level] ?? LEVELS.info;
++  const write = (lvl) => (event, fields = {}) => {
++    if (LEVELS[lvl] > threshold) return;
++    const entry = { ts: now(), level: lvl, event: safeValue(event) };
++    for (const key of ALLOWED_FIELDS) if (fields[key] !== undefined && fields[key] !== null) entry[key] = safeValue(fields[key]);
++    sink(JSON.stringify(entry));
++  };
++  return Object.freeze({ error: write('error'), warn: write('warn'), info: write('info') });
++}
++
++/** Logger that drops everything – the default for createServer() in tests and embedding code. */
++export const silentLogger = createLogger({ level: 'silent', sink: () => {} });
+diff --git a/src/server.js b/src/server.js
+index a3765ec..984a20e 100644
+--- a/src/server.js
++++ b/src/server.js
+@@ -7,6 +7,7 @@ import { ROOM } from './data.js';
+ import { checkAvailability } from './availability.js';
+ import { validateRequest, LIMITS } from './validation.js';
+ import { nowLocal, campusTimeZone } from './time.js';
++import { createLogger, silentLogger } from './log.js';
+ import { adapterFromEnv } from './explain/adapter.js';
+ import { buildFacts } from './explain/prompts.js';
+ import { fallbackExplanation } from './explain/fallback.js';
+@@ -125,7 +126,8 @@ export async function handleExplain(req, env, adapter, { signal, limited = false
+ export function createServer({
+   env = process.env,
+   adapter = adapterFromEnv(env),
+-  rateLimit = createRateLimiter({ perMinute: Number(env.EXPLAIN_RATE_LIMIT_PER_MIN) || 10 })
++  rateLimit = createRateLimiter({ perMinute: Number(env.EXPLAIN_RATE_LIMIT_PER_MIN) || 10 }),
++  logger = silentLogger
+ } = {}) {
+   campusTimeZone(env); // fail fast at startup if CAMPUS_TZ is not a valid IANA zone, even with a pinned clock (R01)
+   return http.createServer(async (req, res) => {
+@@ -144,12 +146,20 @@ export function createServer({
+         res.on('close', () => { if (!res.writableEnded) abort.abort(); });
+         const limited = adapter.mode === 'live' && !rateLimit(req.socket.remoteAddress || 'unknown');
+         const out = await handleExplain(req, env, adapter, { signal: abort.signal, limited });
++        const fb = out.payload && 'explanation' in out.payload ? out.payload.explanation : null;
++        // DISABLED is configuration, not a failure – logging it would only add noise.
++        if (fb && !fb.generated && fb.fallbackReason !== 'DISABLED') {
++          logger.warn('explain.fallback', { reason: fb.fallbackReason, mode: adapter.mode });
++        }
+         if (res.destroyed) return undefined;
+         return sendJson(res, out.status, out.payload);
+       }
+       if (req.method === 'GET') return serveStatic(req, res);
+       return sendJson(res, 405, { error: 'METHOD_NOT_ALLOWED' });
+-    } catch {
++    } catch (e) {
++      // Log the error class and route only – never the message (it may echo input or secrets).
++      const route = ['/api/room', '/api/availability', '/api/explain'].includes(req.url) ? req.url : 'other';
++      logger.error('server.error', { route, error: e?.name || 'Error' });
+       return sendJson(res, 500, { error: 'INTERNAL_ERROR' });
+     }
+   });
+@@ -157,5 +167,6 @@ export function createServer({
+ 
+ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+   const port = Number(process.env.PORT) || 3000;
+-  createServer().listen(port, () => process.stdout.write(`Smart Campus running on http://localhost:${port}\n`));
++  const logger = createLogger({ level: process.env.LOG_LEVEL || 'info' });
++  createServer({ logger }).listen(port, () => process.stdout.write(`Smart Campus running on http://localhost:${port}\n`));
+ }

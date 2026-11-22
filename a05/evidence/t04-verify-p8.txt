@@ -1,0 +1,4 @@
+$ (cd /tmp/p8-RIzX && node /home/claude/smart-campus/scripts/build.mjs)   # dist/canary.txt exists before
+Error: ENOENT: no such file or directory, lstat 'src'
+  code: 'ENOENT',
+canary after: ls: cannot access '/tmp/p8-RIzX/dist': No such file or directory

@@ -6,10 +6,12 @@ import { fileURLToPath } from 'node:url';
 import { ROOM } from './data.js';
 import { checkAvailability } from './availability.js';
 import { validateRequest, LIMITS } from './validation.js';
-import { nowLocal } from './time.js';
+import { nowLocal, campusTimeZone } from './time.js';
+import { createLogger, silentLogger } from './log.js';
 import { adapterFromEnv } from './explain/adapter.js';
 import { buildFacts } from './explain/prompts.js';
 import { fallbackExplanation } from './explain/fallback.js';
+import { reasonFor } from './reasons.js';
 
 /** Per-IP fixed-window limit for paid model calls (live mode only; agent R8 / manual M3). */
 export function createRateLimiter({ perMinute = 10, now = () => Date.now() } = {}) {
@@ -88,7 +90,10 @@ export async function handleAvailability(req, env) {
     status: 200,
     input: input.value,
     result,
-    payload: { room: ROOM.label, start: input.value.start, end: input.value.end, ...result }
+    payload: {
+      room: ROOM.label, start: input.value.start, end: input.value.end, ...result,
+      statusText: reasonFor(result.reasonCode)?.statusText ?? (result.isAvailable ? 'Available' : 'Not available')
+    }
   };
 }
 
@@ -121,8 +126,10 @@ export async function handleExplain(req, env, adapter, { signal, limited = false
 export function createServer({
   env = process.env,
   adapter = adapterFromEnv(env),
-  rateLimit = createRateLimiter({ perMinute: Number(env.EXPLAIN_RATE_LIMIT_PER_MIN) || 10 })
+  rateLimit = createRateLimiter({ perMinute: Number(env.EXPLAIN_RATE_LIMIT_PER_MIN) || 10 }),
+  logger = silentLogger
 } = {}) {
+  campusTimeZone(env); // fail fast at startup if CAMPUS_TZ is not a valid IANA zone, even with a pinned clock (R01)
   return http.createServer(async (req, res) => {
     try {
       if (req.method === 'GET' && req.url === '/api/room') {
@@ -139,12 +146,20 @@ export function createServer({
         res.on('close', () => { if (!res.writableEnded) abort.abort(); });
         const limited = adapter.mode === 'live' && !rateLimit(req.socket.remoteAddress || 'unknown');
         const out = await handleExplain(req, env, adapter, { signal: abort.signal, limited });
+        const fb = out.payload && 'explanation' in out.payload ? out.payload.explanation : null;
+        // DISABLED is configuration, not a failure – logging it would only add noise.
+        if (fb && !fb.generated && fb.fallbackReason !== 'DISABLED') {
+          logger.warn('explain.fallback', { reason: fb.fallbackReason, mode: adapter.mode });
+        }
         if (res.destroyed) return undefined;
         return sendJson(res, out.status, out.payload);
       }
       if (req.method === 'GET') return serveStatic(req, res);
       return sendJson(res, 405, { error: 'METHOD_NOT_ALLOWED' });
-    } catch {
+    } catch (e) {
+      // Log the error class and route only – never the message (it may echo input or secrets).
+      const route = ['/api/room', '/api/availability', '/api/explain'].includes(req.url) ? req.url : 'other';
+      logger.error('server.error', { route, error: e?.name || 'Error' });
       return sendJson(res, 500, { error: 'INTERNAL_ERROR' });
     }
   });
@@ -152,5 +167,6 @@ export function createServer({
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   const port = Number(process.env.PORT) || 3000;
-  createServer().listen(port, () => process.stdout.write(`Smart Campus running on http://localhost:${port}\n`));
+  const logger = createLogger({ level: process.env.LOG_LEVEL || 'info' });
+  createServer({ logger }).listen(port, () => process.stdout.write(`Smart Campus running on http://localhost:${port}\n`));
 }

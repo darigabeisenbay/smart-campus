@@ -1,0 +1,38 @@
+$ grep -rnE "\b(OVERLAP|ROOM_BLOCKED|PAST_TIME|OUTSIDE_OPENING_HOURS|INVALID_TIME|AVAILABLE)\b" src public --include=*.js | grep -v "^src/availability.js"
+src/explain/adapter.js:70:    case 'AVAILABLE': return `Good news: ${f.room} is free ${when}, because no booking rule bl
+src/explain/adapter.js:71:    case 'OVERLAP': return `Sorry, ${f.room} is not available ${when} because that time overla
+src/explain/adapter.js:72:    case 'ROOM_BLOCKED': return `Sorry, ${f.room} is not available ${when} because the room is
+src/explain/adapter.js:73:    case 'PAST_TIME': return `This time cannot be booked because the start time is already in 
+src/explain/adapter.js:74:    case 'OUTSIDE_OPENING_HOURS': return `Sorry, ${f.room} is not available ${when} because it
+src/explain/adapter.js:75:    case 'INVALID_TIME':
+src/explain/prompts.js:5:  AVAILABLE: 'the requested time passed every booking rule',
+src/explain/prompts.js:6:  OVERLAP: 'the requested time overlaps an existing booking of this room',
+src/explain/prompts.js:7:  ROOM_BLOCKED: 'the room is blocked for bookings during the requested time',
+src/explain/prompts.js:8:  INVALID_TIME: 'the requested time range is not valid (for example the end is not after the st
+src/explain/prompts.js:9:  PAST_TIME: 'the requested start time is already in the past',
+src/explain/prompts.js:10:  OUTSIDE_OPENING_HOURS: 'the requested time is outside the room\'s opening hours'
+src/explain/fallback.js:4:  AVAILABLE: 'This room is free for the selected time, because no booking rule blocks it.',
+src/explain/fallback.js:5:  OVERLAP: 'This room is not available because the selected time overlaps an existing booking.
+src/explain/fallback.js:6:  ROOM_BLOCKED: 'This room is not available because it is blocked for bookings during the sele
+src/explain/fallback.js:7:  INVALID_TIME: 'This request is not valid: the end must be after the start, on the same day, 
+src/explain/fallback.js:8:  PAST_TIME: 'This room cannot be booked for the selected time because the start time is alrea
+src/explain/fallback.js:9:  OUTSIDE_OPENING_HOURS: 'This room is not available because the selected time is outside the 
+src/explain/validateExplanation.js:10:  AVAILABLE: /\b(available|free)\b/i,
+src/explain/validateExplanation.js:11:  OVERLAP: /\b(overlap\w*|already booked|existing booking|another booking|conflict
+src/explain/validateExplanation.js:12:  ROOM_BLOCKED: /\b(blocked|not open for booking)\b/i,
+src/explain/validateExplanation.js:13:  INVALID_TIME: /\b(not valid|invalid|end (time )?(must|is|has)|after the start|sa
+src/explain/validateExplanation.js:14:  PAST_TIME: /\b(past|already passed|has passed)\b/i,
+src/explain/validateExplanation.js:15:  OUTSIDE_OPENING_HOURS: /\b(opening hours|outside (the )?(room's )?(opening |open
+public/app.js:5:  AVAILABLE: 'Available',
+public/app.js:6:  OVERLAP: 'Not available – overlaps an existing booking',
+public/app.js:7:  ROOM_BLOCKED: 'Not available – room is blocked',
+public/app.js:8:  INVALID_TIME: 'Not available – invalid time range',
+public/app.js:9:  PAST_TIME: 'Not available – time is in the past',
+public/app.js:10:  OUTSIDE_OPENING_HOURS: 'Not available – outside opening hours'
+
+# mentions per file (outside the rule engine)
+src/explain/adapter.js:6
+src/explain/prompts.js:6
+src/explain/validateExplanation.js:6
+src/explain/fallback.js:6
+public/app.js:6

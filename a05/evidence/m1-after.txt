@@ -1,0 +1,17 @@
+$ node --test test/clock.test.js   # AFTER fix + review change
+ok 1 - R01: same instant gives the same campus time on servers in different time zones
+ok 2 - R01: a slot earlier today on campus is PAST_TIME even on a UTC server
+ok 3 - R01: CAMPUS_TZ overrides the default; an invalid zone fails loudly
+ok 4 - SMART_CAMPUS_NOW still pins the clock
+ok 5 - R01 review fix: server refuses an invalid CAMPUS_TZ even when the clock is pinned; midnight prints 00
+# pass 5
+# fail 0
+$ TZ=UTC npm test
+# pass 73
+# fail 0
+$ TZ=Pacific/Kiritimati npm test
+# pass 73
+# fail 0
+$ TZ=America/Los_Angeles npm test
+# pass 73
+# fail 0

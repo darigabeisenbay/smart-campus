@@ -1,0 +1,98 @@
+$ tsc --noEmit --allowJs --checkJs --target es2022 --module nodenext --moduleResolution nodenext --typeRoots /opt/npm-tools/node_modules/@types --types node src/server.js
+src/availability.js(15,26): error TS7006: Parameter 'aStart' implicitly has an 'any' type.
+src/availability.js(15,34): error TS7006: Parameter 'aEnd' implicitly has an 'any' type.
+src/availability.js(15,40): error TS7006: Parameter 'bStart' implicitly has an 'any' type.
+src/availability.js(15,48): error TS7006: Parameter 'bEnd' implicitly has an 'any' type.
+src/availability.js(28,19): error TS7006: Parameter 'isAvailable' implicitly has an 'any' type.
+src/availability.js(28,32): error TS7006: Parameter 'reasonCode' implicitly has an 'any' type.
+src/availability.js(34,42): error TS2339: Property 'maxDurationMinutes' does not exist on type 'object'.
+src/availability.js(39,15): error TS18047: 'dayStart' is possibly 'null'.
+src/availability.js(39,31): error TS2339: Property 'openingHour' does not exist on type 'object'.
+src/availability.js(39,57): error TS18047: 'dayStart' is possibly 'null'.
+src/availability.js(39,73): error TS2339: Property 'closingHour' does not exist on type 'object'.
+src/availability.js(42,60): error TS2339: Property 'start' does not exist on type 'object | Readonly<{ start: "2026-11-24T08:00"; end: "2026-11-24T20:00"; reason: "Maintenance (fictional)"; }>'.
+  Property 'start' does not exist on type 'object'.
+src/availability.js(42,80): error TS2339: Property 'end' does not exist on type 'object | Readonly<{ start: "2026-11-24T08:00"; end: "2026-11-24T20:00"; reason: "Maintenance (fictional)"; }>'.
+  Property 'end' does not exist on type 'object'.
+src/availability.js(45,61): error TS2339: Property 'start' does not exist on type 'object | Readonly<{ id: "b1"; start: "2026-11-23T09:00"; end: "2026-11-23T10:30"; holder: "Robotics Club (fictional)"; }> | Readonly<{ id: "b2"; start: "2026-11-23T13:00"; end: "2026-11-23T14:00"; holder: "Study Group 7 (fictional)"; }> | Readonly<...>'.
+  Property 'start' does not exist on type 'object'.
+src/availability.js(45,81): error TS2339: Property 'end' does not exist on type 'object | Readonly<{ id: "b1"; start: "2026-11-23T09:00"; end: "2026-11-23T10:30"; holder: "Robotics Club (fictional)"; }> | Readonly<{ id: "b2"; start: "2026-11-23T13:00"; end: "2026-11-23T14:00"; holder: "Study Group 7 (fictional)"; }> | Readonly<...>'.
+  Property 'end' does not exist on type 'object'.
+src/explain/adapter.js(17,15): error TS7006: Parameter 'code' implicitly has an 'any' type.
+src/explain/adapter.js(24,35): error TS7006: Parameter 'fn' implicitly has an 'any' type.
+src/explain/adapter.js(24,39): error TS7006: Parameter 'ms' implicitly has an 'any' type.
+src/explain/adapter.js(24,43): error TS7006: Parameter 'outer' implicitly has an 'any' type.
+src/explain/adapter.js(44,30): error TS7006: Parameter 'value' implicitly has an 'any' type.
+src/explain/adapter.js(51,32): error TS7006: Parameter 'raw' implicitly has an 'any' type.
+src/explain/adapter.js(66,15): error TS7006: Parameter 'v' implicitly has an 'any' type.
+src/explain/adapter.js(67,19): error TS7006: Parameter 'f' implicitly has an 'any' type.
+src/explain/adapter.js(82,17): error TS7006: Parameter 'facts' implicitly has an 'any' type.
+src/explain/adapter.js(82,24): error TS7006: Parameter 'signal' implicitly has an 'any' type.
+src/explain/adapter.js(96,35): error TS7031: Binding element 'apiKey' implicitly has an 'any' type.
+src/explain/adapter.js(96,43): error TS7031: Binding element 'model' implicitly has an 'any' type.
+src/explain/adapter.js(96,50): error TS7031: Binding element 'promptVariant' implicitly has an 'any' type.
+src/explain/adapter.js(97,17): error TS7006: Parameter 'facts' implicitly has an 'any' type.
+src/explain/adapter.js(97,24): error TS7006: Parameter 'signal' implicitly has an 'any' type.
+src/explain/adapter.js(108,19): error TS7053: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type 'Readonly<{ A: "Explain to a student whether the room is available."; B: string; C: string; }>'.
+src/explain/adapter.js(122,41): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/explain/adapter.js(133,49): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/explain/adapter.js(135,40): error TS2538: Type 'undefined' cannot be used as an index type.
+src/explain/adapter.js(142,15): error TS18048: 'options.apiKey' is possibly 'undefined'.
+src/explain/adapter.js(145,7): error TS2322: Type 'Function | undefined' is not assignable to type '{ (input: URL | RequestInfo, init?: RequestInit | undefined): Promise<Response>; (input: string | Request | URL, init?: RequestInit | undefined): Promise<...>; } | undefined'.
+  Type 'Function' is not assignable to type '{ (input: URL | RequestInfo, init?: RequestInit | undefined): Promise<Response>; (input: string | Request | URL, init?: RequestInit | undefined): Promise<...>; }'.
+    Type 'Function' provides no match for the signature '(input: URL | RequestInfo, init?: RequestInit | undefined): Promise<Response>'.
+src/explain/adapter.js(149,21): error TS7006: Parameter 'facts' implicitly has an 'any' type.
+src/explain/adapter.js(149,28): error TS7006: Parameter 'fallbackReason' implicitly has an 'any' type.
+src/explain/adapter.js(158,19): error TS7006: Parameter 'facts' implicitly has an 'any' type.
+src/explain/adapter.js(158,28): error TS2339: Property 'signal' does not exist on type '{}'.
+src/explain/adapter.js(166,40): error TS7006: Parameter 's' implicitly has an 'any' type.
+src/explain/adapter.js(186,5): error TS2322: Type 'string | undefined' is not assignable to type 'number | undefined'.
+  Type 'string' is not assignable to type 'number'.
+src/explain/fallback.js(12,37): error TS7006: Parameter 'reasonCode' implicitly has an 'any' type.
+src/explain/fallback.js(13,10): error TS7053: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type 'Readonly<{ AVAILABLE: "This room is free for the selected time, because no booking rule blocks it."; OVERLAP: "This room is not available because the selected time overlaps an existing booking."; ROOM_BLOCKED: "This room is not available because it is blocked for bookings during the selected time."; INVALID_TIME: "T...'.
+src/explain/prompts.js(50,30): error TS7031: Binding element 'roomLabel' implicitly has an 'any' type.
+src/explain/prompts.js(50,41): error TS7031: Binding element 'start' implicitly has an 'any' type.
+src/explain/prompts.js(50,48): error TS7031: Binding element 'end' implicitly has an 'any' type.
+src/explain/prompts.js(50,53): error TS7031: Binding element 'isAvailable' implicitly has an 'any' type.
+src/explain/prompts.js(50,66): error TS7031: Binding element 'reasonCode' implicitly has an 'any' type.
+src/explain/prompts.js(54,34): error TS7006: Parameter 'facts' implicitly has an 'any' type.
+src/explain/validateExplanation.js(65,19): error TS7006: Parameter 's' implicitly has an 'any' type.
+src/explain/validateExplanation.js(66,15): error TS7006: Parameter 'h' implicitly has an 'any' type.
+src/explain/validateExplanation.js(66,18): error TS7006: Parameter 'm' implicitly has an 'any' type.
+src/explain/validateExplanation.js(68,32): error TS7006: Parameter 'text' implicitly has an 'any' type.
+src/explain/validateExplanation.js(70,45): error TS7006: Parameter 's' implicitly has an 'any' type.
+src/explain/validateExplanation.js(73,37): error TS7006: Parameter 'raw' implicitly has an 'any' type.
+src/explain/validateExplanation.js(73,42): error TS7006: Parameter 'facts' implicitly has an 'any' type.
+src/explain/validateExplanation.js(134,17): error TS7053: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type 'Readonly<{ AVAILABLE: RegExp; OVERLAP: RegExp; ROOM_BLOCKED: RegExp; INVALID_TIME: RegExp; PAST_TIME: RegExp; OUTSIDE_OPENING_HOURS: RegExp; }>'.
+src/server.js(17,11): error TS7006: Parameter 'ip' implicitly has an 'any' type.
+src/server.js(27,17): error TS7006: Parameter 'req' implicitly has an 'any' type.
+src/server.js(36,19): error TS7006: Parameter 'res' implicitly has an 'any' type.
+src/server.js(36,24): error TS7006: Parameter 'status' implicitly has an 'any' type.
+src/server.js(36,32): error TS7006: Parameter 'payload' implicitly has an 'any' type.
+src/server.js(41,30): error TS7006: Parameter 'req' implicitly has an 'any' type.
+src/server.js(44,11): error TS7034: Variable 'chunks' implicitly has type 'any[]' in some locations where its type cannot be determined.
+src/server.js(46,21): error TS7006: Parameter 'value' implicitly has an 'any' type.
+src/server.js(47,21): error TS7006: Parameter 'chunk' implicitly has an 'any' type.
+src/server.js(54,34): error TS7005: Variable 'chunks' implicitly has an 'any[]' type.
+src/server.js(62,19): error TS7006: Parameter 'res' implicitly has an 'any' type.
+src/server.js(67,28): error TS7006: Parameter 'req' implicitly has an 'any' type.
+src/server.js(67,33): error TS7006: Parameter 'res' implicitly has an 'any' type.
+src/server.js(70,30): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ '.html': string; '.js': string; '.css': string; }'.
+  No index signature with a parameter of type 'string' was found on type '{ '.html': string; '.js': string; '.css': string; }'.
+src/server.js(73,42): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ '.html': string; '.js': string; '.css': string; }'.
+  No index signature with a parameter of type 'string' was found on type '{ '.html': string; '.js': string; '.css': string; }'.
+src/server.js(81,42): error TS7006: Parameter 'req' implicitly has an 'any' type.
+src/server.js(81,47): error TS7006: Parameter 'env' implicitly has an 'any' type.
+src/server.js(100,37): error TS7006: Parameter 'req' implicitly has an 'any' type.
+src/server.js(100,42): error TS7006: Parameter 'env' implicitly has an 'any' type.
+src/server.js(100,47): error TS7006: Parameter 'adapter' implicitly has an 'any' type.
+src/server.js(100,58): error TS2339: Property 'signal' does not exist on type '{ limited?: boolean | undefined; }'.
+src/server.js(103,28): error TS2345: Argument of type '{ isAvailable?: boolean | undefined; reasonCode?: string | undefined; roomId?: string | undefined; start?: string | undefined; end?: string | undefined; roomLabel: "Room A-101 (Group Study Room)"; }' is not assignable to parameter of type '{ end: any; isAvailable: any; reasonCode: any; roomLabel: any; start: any; }'.
+  Property 'end' is optional in type '{ isAvailable?: boolean | undefined; reasonCode?: string | undefined; roomId?: string | undefined; start?: string | undefined; end?: string | undefined; roomLabel: "Room A-101 (Group Study Room)"; }' but required in type '{ end: any; isAvailable: any; reasonCode: any; roomLabel: any; start: any; }'.
+src/server.js(141,62): error TS2353: Object literal may only specify known properties, and 'signal' does not exist in type '{ limited?: boolean | undefined; }'.
+src/time.js(8,27): error TS7006: Parameter 'value' implicitly has an 'any' type.
+src/time.js(20,33): error TS7006: Parameter 'value' implicitly has an 'any' type.
+src/time.js(28,16): error TS7006: Parameter 'n' implicitly has an 'any' type.
+src/validation.js(15,33): error TS7006: Parameter 'body' implicitly has an 'any' type.
+EXIT=1

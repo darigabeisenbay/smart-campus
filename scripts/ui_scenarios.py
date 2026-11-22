@@ -62,7 +62,8 @@ def main():
     results = []
     try:
         with sync_playwright() as p:
-            browser = p.chromium.launch(executable_path='/usr/bin/google-chrome', args=['--no-sandbox'])
+            chrome = os.environ.get('CHROME_PATH') or None  # None = Playwright's own Chromium
+            browser = p.chromium.launch(executable_path=chrome, args=['--no-sandbox'])
             page = browser.new_page(viewport={'width': 760, 'height': 640}, device_scale_factor=1.5)
 
             for cid, name, server, start, end, exp_status, exp_label in CASES:

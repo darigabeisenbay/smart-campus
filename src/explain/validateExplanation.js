@@ -3,17 +3,9 @@
 // states a different status, claims an action, or adds a detail that is not in the facts.
 // Returns {ok: true, text} or {ok: false, reason}.
 import { BOOKINGS, BLOCKED_PERIODS } from '../data.js';
+import { reasonFor } from '../reasons.js';
 
 export const OUTPUT_LIMITS = Object.freeze({ maxChars: 300, maxSentences: 2 });
-
-const REQUIRED_TOPIC = Object.freeze({
-  AVAILABLE: /\b(available|free)\b/i,
-  OVERLAP: /\b(overlap\w*|already booked|existing booking|another booking|conflict\w*)\b/i,
-  ROOM_BLOCKED: /\b(blocked|not open for booking)\b/i,
-  INVALID_TIME: /\b(not valid|invalid|end (time )?(must|is|has)|after the start|same day|too long|maximum length|duration)\b/i,
-  PAST_TIME: /\b(past|already passed|has passed)\b/i,
-  OUTSIDE_OPENING_HOURS: /\b(opening hours|outside (the )?(room's )?(opening |open )?hours)\b/i
-});
 
 // Printable ASCII, Latin-1 (no soft hyphen), typographic quotes, dashes, ellipsis. Anything else
 // (zero-width, bidi controls, private use) can hide words from the checks below (agent R4).
@@ -131,7 +123,7 @@ export function validateExplanation(raw, facts) {
   }
 
   // The explanation must address the actual reason code.
-  const topic = REQUIRED_TOPIC[facts.reasonCode];
+  const topic = reasonFor(facts.reasonCode)?.topic;
   if (!topic || !topic.test(text)) return { ok: false, reason: 'MISSING_REASON' };
 
   return { ok: true, text };

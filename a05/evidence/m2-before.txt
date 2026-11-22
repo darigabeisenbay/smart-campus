@@ -1,0 +1,6 @@
+$ node --test test/logging.test.js   # BEFORE fix (no src/log.js)
+#     throw new ERR_MODULE_NOT_FOUND(
+# Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/claude/smart-campus/src/log.js' imported from /home/claude/smart-campus/test/logging.test.js
+#   code: 'ERR_MODULE_NOT_FOUND',
+not ok 1 - test/logging.test.js
+# pass 0

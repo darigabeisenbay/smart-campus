@@ -1,0 +1,8 @@
+$ grep -rcE "\b(OVERLAP|ROOM_BLOCKED|PAST_TIME|OUTSIDE_OPENING_HOURS|INVALID_TIME|AVAILABLE)\b" src/explain public/app.js src/server.js src/reasons.js
+src/explain/fallback.js:0
+src/explain/validateExplanation.js:0
+public/app.js:0
+src/reasons.js:6
+src/explain/adapter.js:0
+src/explain/prompts.js:0
+src/server.js:0

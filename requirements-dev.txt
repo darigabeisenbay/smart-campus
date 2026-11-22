@@ -1,0 +1,3 @@
+# Dev-only tooling for scripts/ui_scenarios.py (E2E screenshots). Not needed for npm test.
+# After install: python3 -m playwright install chromium   (or set CHROME_PATH to an existing Chrome)
+playwright==1.63.0

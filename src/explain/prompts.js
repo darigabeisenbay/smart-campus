@@ -1,14 +1,8 @@
 // Prompt variants for the "Explain availability" feature (Task #04).
 // The model receives ONLY server-built structured facts – never raw user text.
+import { REASONS } from '../reasons.js';
 
-export const REASON_GLOSSARY = Object.freeze({
-  AVAILABLE: 'the requested time passed every booking rule',
-  OVERLAP: 'the requested time overlaps an existing booking of this room',
-  ROOM_BLOCKED: 'the room is blocked for bookings during the requested time',
-  INVALID_TIME: 'the requested time range is not valid (for example the end is not after the start, it spans two days or is too long)',
-  PAST_TIME: 'the requested start time is already in the past',
-  OUTSIDE_OPENING_HOURS: 'the requested time is outside the room\'s opening hours'
-});
+export const REASON_GLOSSARY = Object.freeze(Object.fromEntries(Object.entries(REASONS).map(([code, r]) => [code, r.glossary])));
 
 const glossaryText = Object.entries(REASON_GLOSSARY).map(([k, v]) => `- ${k}: ${v}`).join('\n');
 

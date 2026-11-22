@@ -1,0 +1,13 @@
+T01 PASS | available | status "Available"; after explain "Available"; label "GENERATED EXPLANATION (
+T02 PASS | overlap | status "Not available – overlaps an existing booking"; after explain "Not ava
+T03 PASS | blocked room | status "Not available – room is blocked"; after explain "Not available �
+T04 PASS | invalid time (end before start) | status "Not available – invalid time range"; after ex
+T05 PASS | past time | status "Not available – time is in the past"; after explain "Not available 
+T06 PASS | outside opening hours | status "Not available – outside opening hours"; after explain "
+T07 PASS | empty input | error "Please fill in both start and end time."; status visible=False
+T08 PASS | overly long input (prompt-injection text, 600 chars) | error "The input is too long."; st
+T08b PASS | malformed input | error "The request was not in the expected format."; status visible=Fa
+T09 PASS | LLM timeout | status "Not available – overlaps an existing booking"; after explain "Not
+T10 PASS | simulated API failure | status "Not available – overlaps an existing booking"; after ex
+T11 PASS | unavailable API key (live mode) | status "Available"; after explain "Available"; label "E
+T12 PASS | model contradicts status | status "Not available – overlaps an existing booking"; after

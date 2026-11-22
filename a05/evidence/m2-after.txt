@@ -1,0 +1,8 @@
+$ node --test test/logging.test.js   # AFTER fix + review change
+ok 1 - R02: a model timeout produces exactly one explain.fallback line with reason and mode
+ok 2 - R02: an unexpected error returns 500 and logs server.error without request content
+ok 3 - R02: a successful explanation logs nothing
+ok 4 - R02 review fix: LLM_MODE=off (configuration, not failure) logs nothing
+ok 5 - R02: logger keeps only allowlisted fields and safe values
+# pass 5
+# fail 0
