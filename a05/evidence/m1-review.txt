@@ -1,0 +1,2 @@
+midnight: 2026-11-23T00:00
+invalid CAMPUS_TZ accepted when clock pinned -> REVIEW ISSUE

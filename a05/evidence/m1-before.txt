@@ -1,0 +1,16 @@
+$ node --test test/clock.test.js   # BEFORE fix (src/time.js unchanged)
+not ok 1 - R01: same instant gives the same campus time on servers in different time zones
+    + actual - expected
+  expected: '2026-11-22T18:37'
+  actual: '2026-11-22T13:47'
+not ok 2 - R01: a slot earlier today on campus is PAST_TIME even on a UTC server
+    + actual - expected
+  expected: 'PAST_TIME'
+  actual: 'AVAILABLE'
+not ok 3 - R01: CAMPUS_TZ overrides the default; an invalid zone fails loudly
+    + actual - expected
+  expected: '2026-11-22T13:37'
+  actual: '2026-11-22T18:47'
+ok 4 - SMART_CAMPUS_NOW still pins the clock
+# pass 1
+# fail 3

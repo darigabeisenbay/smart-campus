@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { ROOM } from './data.js';
 import { checkAvailability } from './availability.js';
 import { validateRequest, LIMITS } from './validation.js';
-import { nowLocal } from './time.js';
+import { nowLocal, campusTimeZone } from './time.js';
 import { adapterFromEnv } from './explain/adapter.js';
 import { buildFacts } from './explain/prompts.js';
 import { fallbackExplanation } from './explain/fallback.js';
@@ -127,6 +127,7 @@ export function createServer({
   adapter = adapterFromEnv(env),
   rateLimit = createRateLimiter({ perMinute: Number(env.EXPLAIN_RATE_LIMIT_PER_MIN) || 10 })
 } = {}) {
+  campusTimeZone(env); // fail fast at startup if CAMPUS_TZ is not a valid IANA zone, even with a pinned clock (R01)
   return http.createServer(async (req, res) => {
     try {
       if (req.method === 'GET' && req.url === '/api/room') {

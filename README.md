@@ -18,7 +18,8 @@ It starts servers on ports 3101–3105 and writes `docs/screenshots/`.
 
 Tested on Node.js 22 (`engines` allows ≥ 20, not verified). There are no npm dependencies.
 
-Set `SMART_CAMPUS_NOW=2026-11-20T09:00` to pin the clock for demos and tests.
+The campus clock uses `CAMPUS_TZ` (IANA zone, default `Asia/Qyzylorda`), never the server's own time zone;
+an invalid zone stops the server at startup. Set `SMART_CAMPUS_NOW=2026-11-20T09:00` to pin the clock for demos and tests.
 
 ## Booking rules (source of truth: `src/availability.js`)
 
