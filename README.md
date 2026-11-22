@@ -9,9 +9,14 @@ npm start            # http://localhost:3000
 npm test             # node:test unit + integration tests
 npm run lint         # zero-dependency lint (scripts/lint.mjs)
 npm run build        # copies to dist/ and verifies modules load
+npm run check        # test + lint + build
 ```
 
-Requires Node.js 20+. There are no npm dependencies.
+Optional E2E screenshots (Task 05 evidence): `pip install -r requirements-dev.txt`, then
+`python3 -m playwright install chromium` (or set `CHROME_PATH`), then `python3 scripts/ui_scenarios.py`.
+It starts servers on ports 3101–3105 and writes `docs/screenshots/`.
+
+Tested on Node.js 22 (`engines` allows ≥ 20, not verified). There are no npm dependencies.
 
 Set `SMART_CAMPUS_NOW=2026-11-20T09:00` to pin the clock for demos and tests.
 
@@ -55,4 +60,4 @@ node scripts/compare-prompts.mjs --live   # regenerate with the real API (needs 
 - `src/server.js` – HTTP server and JSON API
 - `public/` – UI component (`index.html`, `app.js`, `styles.css`)
 - `src/explain/` – LLM adapter, prompts, output validation, deterministic fallback
-- `AGENTS.md` – instructions for coding agents
+- `AGENTS.md` – instructions for coding agents (`CLAUDE.md` imports it)
