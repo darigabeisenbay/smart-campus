@@ -45,6 +45,8 @@ produced or changed by the model. See `docs/FEATURE_SPEC.md`.
 | `LLM_MODEL` | `claude-haiku-5-5` | model for live mode |
 | `LLM_TIMEOUT_MS` | `4000` | adapter timeout, clamped to 500–7000 ms (below the browser's 8 s) |
 | `EXPLAIN_RATE_LIMIT_PER_MIN` | `10` | per-IP limit on explain calls in live mode |
+| `CAMPUS_TZ` | `Asia/Qyzylorda` | campus time zone for "now" (invalid zone → startup error) |
+| `LOG_LEVEL` | `info` | `info`, `warn`, `error`, `silent`; JSON lines on stderr (`explain.fallback`, `server.error`), never request content or keys |
 | `LLM_PROMPT_VARIANT` | `C` | prompt A/B/C (see `docs/prompt-eval/`) |
 | `LLM_MOCK_BEHAVIOR` | `ok` | demo failures: `timeout`, `error`, `invalid`, `contradict`, `invent` |
 

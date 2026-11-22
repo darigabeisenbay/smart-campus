@@ -1,0 +1,13 @@
+$ tsc --noEmit --allowJs --checkJs --target es2022 --module nodenext --moduleResolution nodenext --typeRoots /opt/npm-tools/node_modules/@types --types node --strict false src/server.js
+src/availability.js(34,42): error TS2339: Property 'maxDurationMinutes' does not exist on type 'object'.
+src/availability.js(39,31): error TS2339: Property 'openingHour' does not exist on type 'object'.
+src/availability.js(39,73): error TS2339: Property 'closingHour' does not exist on type 'object'.
+src/explain/adapter.js(135,7): error TS2322: Type 'Function' is not assignable to type '{ (input: URL | RequestInfo, init?: RequestInit): Promise<Response>; (input: string | Request | URL, init?: RequestInit): Promise<...>; }'.
+  Type 'Function' provides no match for the signature '(input: URL | RequestInfo, init?: RequestInit): Promise<Response>'.
+src/explain/adapter.js(148,28): error TS2339: Property 'signal' does not exist on type '{}'.
+src/explain/adapter.js(176,5): error TS2322: Type 'string' is not assignable to type 'number'.
+src/server.js(87,64): error TS2339: Property 'error' does not exist on type '{ ok: true; value: { roomId: string; start: string; end: string; }; } | { ok: false; error: string; }'.
+  Property 'error' does not exist on type '{ ok: true; value: { roomId: string; start: string; end: string; }; }'.
+src/server.js(105,58): error TS2339: Property 'signal' does not exist on type '{ limited?: boolean; }'.
+src/server.js(148,62): error TS2353: Object literal may only specify known properties, and 'signal' does not exist in type '{ limited?: boolean; }'.
+EXIT=1

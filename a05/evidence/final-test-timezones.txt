@@ -1,0 +1,9 @@
+$ TZ=UTC npm test
+# pass 78
+# fail 0
+$ TZ=Asia/Qyzylorda npm test
+# pass 78
+# fail 0
+$ TZ=Pacific/Kiritimati npm test
+# pass 78
+# fail 0

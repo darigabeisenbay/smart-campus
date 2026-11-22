@@ -17,7 +17,8 @@ public/ (UI, vanilla JS) ──HTTP──► src/server.js ──► src/validat
                                                    └─ fallback.js (deterministic text)
 src/reasons.js  – one catalog record per reason code (status text, glossary, fallback, topic, mock text)
 src/data.js     – the room, bookings, blocked periods (read-only at runtime)
-src/time.js     – campus clock and date parsing
+src/time.js     – campus clock (CAMPUS_TZ, never the server TZ) and date parsing
+src/log.js      – structured JSON-line logger with a field allowlist
 ```
 Invariant: the model receives only `{room, start, end, isAvailable, reasonCode}` and can never change the status.
 
@@ -56,7 +57,8 @@ Anything not in this list: explain why and ask first.
 ## 6. Coding conventions
 - ES modules, `const`/`let`, no `var`, no `eval`/`new Function`; lines ≤ 140 chars (enforced by lint).
 - UI renders text with `textContent` only – never `innerHTML`.
-- No `console.log` in `src/`. Never log request bodies, explanations or keys.
+- No `console.log` in `src/`; log through `src/log.js` (allowlisted fields only). Never log request bodies,
+  explanations, times or keys.
 - Reason-code knowledge lives in `src/reasons.js` only – never add a `switch (reasonCode)` or a per-code map elsewhere.
 - Keep functions pure where possible; inject clocks, fetch and adapters for tests.
 - Small, focused commits with a message that says *why*.
